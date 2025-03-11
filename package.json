@@ -1,0 +1,26 @@
+{
+  "type": "module",
+  "packageManager": "pnpm@10.6.0",
+  "scripts": {
+    "d": "nodemon spv-server.js",
+    "p": "node spv-server.js",
+    "p-prod": "NODE_ENV=production node spv-server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "resend": "^4.1.2",
+    "sqlite3": "^5.1.7",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "sqlite3"
+    ]
+  }
+}

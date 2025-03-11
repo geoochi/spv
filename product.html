@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SPV</title>
+    <link rel="stylesheet" href="globals.css" />
+    <script src="https://openfpcdn.io/fingerprintjs/v4/iife.min.js"></script>
+  </head>
+  <body style="margin: 0">
+    <div id="default" style="display: flex; justify-content: center; align-items: center; height: 100vh"></div>
+    <div id="product"></div>
+    <script>
+      const getFingerprint = async () => {
+        var fpPromise = FingerprintJS.load()
+        const fingerprint = await fpPromise
+          .then(fp => fp.get())
+          .then(result => {
+            return result.visitorId
+          })
+        return fingerprint
+      }
+    </script>
+    <script>
+      const verify = async () => {
+        const hash = new URLSearchParams(window.location.search).get('hash')
+        if (hash) {
+          const fingerprint = await getFingerprint()
+          const res = await fetch('/api/verify', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              fingerprint,
+              hash,
+            }),
+          })
+          const data = await res.json()
+          if (res.status === 200) {
+            document.getElementById('default').style.display = 'none'
+            document.getElementById('product').innerHTML = data.message
+          } else {
+            document.getElementById('default').innerHTML = data.message
+          }
+        } else {
+          document.getElementById('default').innerHTML = '404 Not Found'
+        }
+      }
+      verify()
+    </script>
+    <script>
+      // dark mode
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark')
+      } else {
+        document.body.classList.remove('dark')
+      }
+    </script>
+  </body>
+</html>
