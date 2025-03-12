@@ -9,7 +9,7 @@
   </head>
   <body style="margin: 0">
     <div
-      id="default"
+      id="index"
       style="
         display: none;
         justify-content: center;
@@ -23,14 +23,11 @@
         id="register"
         style="display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 10px"
       >
-        <form onsubmit="register(event)">
-          <input type="email" name="email" placeholder="email" />
-          <button type="submit">register</button>
-        </form>
+        <button id="register-button" onclick="register()">Register this browser</button>
         <p id="register-text" style="display: none"></p>
-        <a href="" id="url" style="display: none"></a>
+        <a id="url"></a>
       </div>
-      <h1 id="result" style="display: none"></h1>
+      <h1 id="result"></h1>
     </div>
     <div id="product" style="display: none"></div>
     <script>
@@ -46,7 +43,6 @@
     </script>
     <script>
       const register = async event => {
-        event.preventDefault()
         const fingerprint = await getFingerprint()
         const res = await fetch('/api/register', {
           method: 'POST',
@@ -55,12 +51,14 @@
           },
           body: JSON.stringify({
             fingerprint,
-            email: event.target.email.value,
           }),
         })
         const data = await res.json()
         document.getElementById('register-text').textContent = data.message
         document.getElementById('register-text').style.display = 'block'
+        document.getElementById('url').href = data.url
+        document.getElementById('url').textContent = data.url
+        document.getElementById('url').style.display = 'block'
       }
     </script>
     <script>
@@ -80,15 +78,14 @@
           })
           const data = await res.json()
           if (res.status === 200) {
-            document.getElementById('default').style.display = 'none'
             document.getElementById('product').innerHTML = data.message
             document.getElementById('product').style.display = 'block'
           } else {
-            document.getElementById('default').innerHTML = data.message
-            document.getElementById('default').style.display = 'flex'
+            document.getElementById('index').innerHTML = data.message
+            document.getElementById('index').style.display = 'flex'
           }
         } else {
-          document.getElementById('default').style.display = 'flex'
+          document.getElementById('index').style.display = 'flex'
         }
       }
       verify()

@@ -14,7 +14,7 @@ a single page verification application to verify a user, and send product page t
 
 ## how it works
 
-1. user registers on the index page, sends email and fingerprint to the server
+1. user registers on the index page, sends fingerprint to the server
 2. server generates a hash code (has been verified) and sends it to the user
 3. user clicks the verify url
 4. index page shows a verified page

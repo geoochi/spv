@@ -12,9 +12,8 @@ const db = new sqlite3.Database(process.env.DB_PATH)
 
 db.exec(`
 CREATE TABLE IF NOT EXISTS users (
-  email TEXT PRIMARY KEY NOT NULL UNIQUE,
+  fingerprint PRIMARY KEY NOT NULL,
   hash TEXT NOT NULL,
-  fingerprint TEXT NOT NULL,
   token TEXT NOT NULL,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 )
