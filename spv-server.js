@@ -29,22 +29,27 @@ app.get('/', async (req, res) => {
   res.sendFile(join(__dirname, 'index.html'))
 })
 
-app.post('/api/register', async (req, res) => {
-  // check if the fingerprint is valid
-  let fingerprint = ''
-  try {
-    fingerprint = fingerprintParser.parse(req.body.fingerprint)
-  } catch (error) {
-    res.status(400).json({ message: 'fingerprint not valid' })
-    return
-  }
+// 404 handler
+app.get('/:path', (req, res) => {
+  res.status(404).sendFile(join(__dirname, '404.html'))
+})
 
+app.post('/api/register', async (req, res) => {
   // check if the email is valid
   let email = ''
   try {
     email = emailParser.parse(req.body.email)
   } catch (error) {
     res.status(400).json({ message: 'email not valid' })
+    return
+  }
+
+  // check if the fingerprint is valid
+  let fingerprint = ''
+  try {
+    fingerprint = fingerprintParser.parse(req.body.fingerprint)
+  } catch (error) {
+    res.status(400).json({ message: 'fingerprint not valid' })
     return
   }
 
