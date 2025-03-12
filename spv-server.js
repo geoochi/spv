@@ -29,10 +29,6 @@ app.get('/', async (req, res) => {
   res.sendFile(join(__dirname, 'index.html'))
 })
 
-app.get('/product', async (req, res) => {
-  res.sendFile(join(__dirname, 'product.html'))
-})
-
 app.post('/api/register', async (req, res) => {
   // check if the fingerprint is valid
   let fingerprint = ''
@@ -86,7 +82,7 @@ app.post('/api/register', async (req, res) => {
         console.error(err)
       } else {
         res.json({ message: 'please check your email' })
-        sendEmail({ to: email, subject: 'Receive your link', link: `${BASE_URL}/product?hash=${hash}` })
+        sendEmail({ to: email, subject: 'Receive your link', link: `${BASE_URL}?hash=${hash}` })
       }
     }
   )
@@ -99,7 +95,7 @@ app.post('/api/verify', async (req, res) => {
   try {
     hash = hashParser.parse(req.body.hash)
   } catch (error) {
-    res.status(400).json({ message: 'hash not valid' })
+    res.status(400).json({ message: 'hash invalid' })
     return
   }
 
@@ -132,7 +128,7 @@ app.post('/api/verify', async (req, res) => {
       res.status(400).json({ message: `are you ${user.email.split('@')[0]}?` })
     }
   } else {
-    res.status(400).json({ message: 'user not found' })
+    res.status(400).json({ message: 'hash invalid' })
   }
   db.close()
 })
