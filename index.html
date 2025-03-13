@@ -78,7 +78,7 @@
           })
           const data = await res.json()
           if (res.status === 200) {
-            document.getElementById('product').innerHTML = data.message
+            document.getElementById('product').innerHTML = data.product
             document.getElementById('product').style.display = 'block'
           } else {
             document.getElementById('index').innerHTML = data.message
