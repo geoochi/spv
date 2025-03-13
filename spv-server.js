@@ -115,7 +115,7 @@ app.post('/api/verify', async (req, res) => {
   if (user) {
     const decodedToken = jwt.verify(user.token, process.env.JWT_SECRET)
     if (decodedToken.fingerprint === fingerprint) {
-      const template = ejs.compile(fs.readFileSync(join(__dirname, 'product-template.ejs'), 'utf8'))
+      const template = ejs.compile(fs.readFileSync(join(__dirname, 'product.html'), 'utf8'))
       res.json({ message: 'verified', product: template() })
     } else {
       res.status(400).json({ message: `is this your browser?` })
