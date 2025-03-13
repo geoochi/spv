@@ -45,7 +45,7 @@ node init-db.js
 pnpm d
 ```
 
-5. run production server
+5. run production server locally
 
 ```bash
 pnpm p
