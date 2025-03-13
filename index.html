@@ -5,31 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SPV</title>
     <link rel="stylesheet" href="globals.css" />
-    <script src="https://openfpcdn.io/fingerprintjs/v4/iife.min.js"></script>
+    <script src="index.global.js"></script>
+    <script src="iife.min.js"></script>
   </head>
-  <body style="margin: 0">
-    <div
-      id="index"
-      style="
-        display: none;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        flex-direction: column;
-        gap: 10px;
-      "
-    >
-      <div
-        id="register"
-        style="display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 10px"
-      >
-        <button id="register-button" onclick="register()">Register this browser</button>
-        <p id="register-text" style="display: none"></p>
-        <a id="url"></a>
+  <body>
+    <div id="register" style="display: none" class="flex flex-col items-center justify-center h-screen gap-4">
+      <div class="flex flex-col items-center justify-center gap-4">
+        <button
+          onclick="register()"
+          class="bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 cursor-pointer"
+        >
+          Register this browser
+        </button>
+        <p id="register-message" style="display: none"></p>
+        <a id="register-url" class="underline"></a>
       </div>
-      <h1 id="result"></h1>
     </div>
     <div id="product" style="display: none"></div>
+    <script src="auto-theme.js"></script>
     <script>
       const getFingerprint = async () => {
         var fpPromise = FingerprintJS.load()
@@ -54,11 +47,11 @@
           }),
         })
         const data = await res.json()
-        document.getElementById('register-text').textContent = data.message
-        document.getElementById('register-text').style.display = 'block'
-        document.getElementById('url').href = data.url
-        document.getElementById('url').textContent = data.url
-        document.getElementById('url').style.display = 'block'
+        document.getElementById('register-message').textContent = data.message
+        document.getElementById('register-message').style.display = 'block'
+        document.getElementById('register-url').href = data.url
+        document.getElementById('register-url').textContent = data.url
+        document.getElementById('register-url').style.display = 'block'
       }
     </script>
     <script>
@@ -81,25 +74,14 @@
             document.getElementById('product').innerHTML = data.product
             document.getElementById('product').style.display = 'block'
           } else {
-            document.getElementById('index').innerHTML = data.message
-            document.getElementById('index').style.display = 'flex'
+            document.getElementById('register').innerHTML = data.message
+            document.getElementById('register').style.display = 'flex'
           }
         } else {
-          document.getElementById('index').style.display = 'flex'
+          document.getElementById('register').style.display = 'flex'
         }
       }
       verify()
-    </script>
-    <script>
-      const themeListener = () => {
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          document.body.classList.add('dark')
-        } else {
-          document.body.classList.remove('dark')
-        }
-      }
-      themeListener()
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', themeListener)
     </script>
   </body>
 </html>
